@@ -1,14 +1,17 @@
-# Welcome to your CDK TypeScript project
+# Serverless Patterns on CDK
 
-This is a blank project for CDK development with TypeScript.
+ここにはサーバーレスパターンに基づいたデータ基盤構築のサンプルコードをいくつか掲載しています。
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+サーバーレスパターンについての詳細は、[AWSのページ](https://aws.amazon.com/jp/serverless/patterns/serverless-pattern/)をご参照ください。
 
-## Useful commands
+## 各スタックの紹介
 
-* `npm run build`   compile typescript to js
-* `npm run watch`   watch for changes and compile
-* `npm run test`    perform the jest unit tests
-* `npx cdk deploy`  deploy this stack to your default AWS account/region
-* `npx cdk diff`    compare deployed stack with current state
-* `npx cdk synth`   emits the synthesized CloudFormation template
+サーバーレスパターンを使ったサンプルコードをスタック毎に実装しています。
+スタック毎にAWSにデプロイしていただけると、その内容がAWSに反映されます。
+
+```bash
+cdk deploy <スタック名>
+```
+
+- SimpleS3DataProcessingStack
+    - S3にあるデータファイルに対する、シンプルなデータ加工

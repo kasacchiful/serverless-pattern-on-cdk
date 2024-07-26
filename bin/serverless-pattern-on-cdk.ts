@@ -2,8 +2,13 @@
 import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
 import { ServerlessPatternOnCdkStack } from '../lib/serverless-pattern-on-cdk-stack';
+import { SimpleS3DataProcessingStack } from '../lib/simple-s3-data-processing-stack';
 
 const app = new cdk.App();
+new SimpleS3DataProcessingStack(app, 'SimpleS3DataProcessingStack', {
+  // nothing
+});
+
 new ServerlessPatternOnCdkStack(app, 'ServerlessPatternOnCdkStack', {
   /* If you don't specify 'env', this stack will be environment-agnostic.
    * Account/Region-dependent features and context lookups will not work,
