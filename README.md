@@ -15,3 +15,5 @@ cdk deploy <スタック名>
 
 - SimpleS3DataProcessingStack
     - S3にあるデータファイルに対する、シンプルなデータ加工
+- EventDrivenCollaborationStack
+    - イベント駆動の連携処理
