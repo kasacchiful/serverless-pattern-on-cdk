@@ -15,4 +15,9 @@ def lambda_handler(event, context):
     df = wr.s3.read_csv(sourcePath, dtype_backend='pyarrow')
     wr.s3.to_parquet(df, path=destinationPath, index=False)
 
-    return json.dumps({})
+    return json.dumps({
+        'code': 200,
+        'msg': {
+            'destination': destinationPath
+        },
+    })

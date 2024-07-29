@@ -4,18 +4,24 @@ import { Role, ServicePrincipal, PolicyDocument, PolicyStatement, Effect } from 
 import { Bucket, EventType, BlockPublicAccess, BucketEncryption } from 'aws-cdk-lib/aws-s3';
 import { Function, Runtime, Architecture, Code, LayerVersion } from 'aws-cdk-lib/aws-lambda';
 
+export interface SimpleS3DataProcessingStackProps extends cdk.StackProps {
+  projectName: string;
+}
+
 export class SimpleS3DataProcessingStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+  constructor(scope: Construct, id: string, props?: SimpleS3DataProcessingStackProps) {
     super(scope, id, props);
 
     // S3 Buckets
     const sourceBucket = new Bucket(this, 'SourceBucket', {
+      bucketName: `${props?.projectName}-source-bucket`,
       removalPolicy: cdk.RemovalPolicy.RETAIN,
       blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
       encryption: BucketEncryption.S3_MANAGED,
     });
 
     const destinationBucket = new Bucket(this, 'DestinationBucket', {
+      bucketName: `${props?.projectName}-destination-bucket`,
       removalPolicy: cdk.RemovalPolicy.RETAIN,
       blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
       encryption: BucketEncryption.S3_MANAGED,
@@ -23,6 +29,7 @@ export class SimpleS3DataProcessingStack extends cdk.Stack {
 
     // IAM Role for Lambda
     const lambdaRole = new Role(this, 'LambdaRole', {
+      roleName: `${props?.projectName}-lambda-role`,
       assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
       inlinePolicies: {
         ReadOnlySourceBucket: new PolicyDocument({
@@ -62,6 +69,7 @@ export class SimpleS3DataProcessingStack extends cdk.Stack {
       'arn:aws:lambda:ap-northeast-1:336392948345:layer:AWSSDKPandas-Python312-Arm64:12'
     );
     const dataProcessingFunction = new Function(this, 'DataProcessingFunction', {
+      functionName: `${props?.projectName}-data-processing-function`,
       runtime: Runtime.PYTHON_3_12,
       architecture: Architecture.ARM_64,
       timeout: cdk.Duration.seconds(30),
