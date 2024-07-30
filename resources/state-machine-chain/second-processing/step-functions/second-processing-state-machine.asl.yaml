@@ -1,0 +1,31 @@
+Comment: >-
+  "Second Processing: Change Type"
+StartAt: MessageBatchMap
+States:
+  MessageBatchMap:
+    Comment: "for SQS Batch Message"
+    Type: Map
+    Parameters:
+      path.$: States.StringToJson($$.Map.Item.Value.body)
+    End: true
+    Iterator:
+      StartAt: FilePathMap
+      States:
+        FilePathMap:
+          Comment: "for File Path"
+          Type: Map
+          InputPath: $.path
+          End: true
+          Iterator:
+            StartAt: ToChangeType
+            States:
+              ToChangeType:
+                Type: Task
+                Resource: ${ToChangeTypeFunctionArn}
+                Retry:
+                  - ErrorEquals:
+                    - "States.ALL"
+                    IntervalSeconds: 2
+                    MaxAttempts: 5
+                    BackoffRate: 2
+                End: true

@@ -1,0 +1,23 @@
+Comment: >-
+  "First Processing: Change Format"
+StartAt: ToChangeFormat
+States:
+  ToChangeFormat:
+    Type: Task
+    Resource: ${ToChangeFormatFunctionArn}
+    Retry:
+      - ErrorEquals:
+        - "States.ALL"
+        IntervalSeconds: 2
+        MaxAttempts: 5
+        BackoffRate: 2
+    Next: NextStateMachineNotification
+  NextStateMachineNotification:
+    Type: Task
+    Resource: "arn:aws:states:::aws-sdk:sns:publish"
+    Parameters:
+        TopicArn: ${SnsTopicArn}
+        Message.$: $.msg.destination
+        MessageGroupId.$: $.groupId
+        MessageDeduplicationId.$: States.UUID()
+    End: true

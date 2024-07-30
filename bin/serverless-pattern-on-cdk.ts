@@ -4,6 +4,7 @@ import * as cdk from 'aws-cdk-lib';
 import { ServerlessPatternOnCdkStack } from '../lib/serverless-pattern-on-cdk-stack';
 import { SimpleS3DataProcessingStack } from '../lib/simple-s3-data-processing-stack';
 import { EventDrivenCollaborationStack } from '../lib/event-driven-collaboration-stack';
+import { StateMachineChainStack } from '../lib/state-machine-chain-stack';
 
 const app = new cdk.App();
 new SimpleS3DataProcessingStack(app, 'SimpleS3DataProcessingStack', {
@@ -11,6 +12,9 @@ new SimpleS3DataProcessingStack(app, 'SimpleS3DataProcessingStack', {
 });
 new EventDrivenCollaborationStack(app, 'EventDrivenCollaborationStack', {
   projectName: 'sls-patterns-event-driven-collaboration'
+});
+new StateMachineChainStack(app, 'StateMachineChainStack', {
+  projectName: 'sls-patterns-state-machine-chain'
 });
 
 new ServerlessPatternOnCdkStack(app, 'ServerlessPatternOnCdkStack', {
