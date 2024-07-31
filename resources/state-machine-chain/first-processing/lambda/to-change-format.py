@@ -22,5 +22,4 @@ def lambda_handler(event, context):
         'msg': {
             'destination': destinationPaths
         },
-        'groupId': 'toChangeFormat',
     }
